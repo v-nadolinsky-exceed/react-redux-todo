@@ -1,4 +1,4 @@
-import { ADD_TASK, REMOVE_TASK, CHANGE_TASK, COMPLETED_TASK, ALL_COMPLETED_TASK, REMOVE_COMPLETED_TASK } from "../type";
+import { ADD_TASK, REMOVE_TASK, CHANGE_TASK, COMPLETED_TASK, ALL_COMPLETED_TASK, REMOVE_COMPLETED_TASK ,ADD_TASKS} from "../type";
 
 const InitialState = () => {
     return {
@@ -10,9 +10,10 @@ const InitialState = () => {
 export const itemReducer = (state = InitialState() ,action) => {
     switch (action.type) {
         case ADD_TASK :
-            return { ...state, items: [...state.items, action.payload] }
+            return {  items: [...state.items, action.payload ] }
+        case ADD_TASKS : 
+            return { items:[ ...action.payload]}
         case REMOVE_TASK: 
-        console.log(state)
             return { items: [...state.items.filter( task => task._id !== action.payload.id ) ]} 
         case CHANGE_TASK:
             return { items: [...state.items.map( task => {

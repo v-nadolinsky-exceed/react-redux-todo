@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { allCompletedTasks, addTasks } from "../actions/index";
+import * as actions from "../actions/index";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./ItemForm.css";
 
-const ItemForm = ({ allCompletedTask, tasks, addItem }) => {
+const ItemForm = ({ allCompletedTask, tasks, addTasks }) => {
+  
   const [allCompleted, setAllCompleted] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
@@ -20,14 +21,14 @@ const ItemForm = ({ allCompletedTask, tasks, addItem }) => {
       axios
         .post(`http://localhost:1234/todos/create`, { ...newElem })
         .then(res => {
-          addItem(res.data);
+          addTasks(res.data)
           setInputValue("");
           toast(`Add task: ${inputValue}`);
         })
         .catch(err => console.error("err", err));
     }
   };
-
+ 
   const allCompleteds = () => {
     axios
       .put(`http://localhost:1234/todos/update`, { completed: !allCompleted })
@@ -44,7 +45,7 @@ const ItemForm = ({ allCompletedTask, tasks, addItem }) => {
     <div className="header">
       <div onClick={allCompleteds}>
         <button
-          className={`arrowdown ${tasks.items.length && "active"}`}
+          className={`arrowdown ${tasks.length && "active"}`}
         ></button>
       </div>
       <input
@@ -59,21 +60,10 @@ const ItemForm = ({ allCompletedTask, tasks, addItem }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    allCompletedTask: allCompleted => {
-      dispatch(allCompletedTasks(allCompleted));
-    },
-    addItem: arr => {
-      dispatch(addTasks(arr));
-    }
-  };
-};
-
 const mapStateToProps = state => {
   return {
-    tasks: state.tasks
+    tasks: state.tasks.items || []
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemForm);
+export default connect(mapStateToProps, { ...actions })(ItemForm);

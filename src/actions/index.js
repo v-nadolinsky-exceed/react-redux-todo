@@ -4,7 +4,8 @@ import {
   CHANGE_TASK,
   COMPLETED_TASK,
   ALL_COMPLETED_TASK,
-  REMOVE_COMPLETED_TASK
+  REMOVE_COMPLETED_TASK,
+  ADD_TASKS
 } from "../type";
 
 export const addTasks = item => {
@@ -13,6 +14,13 @@ export const addTasks = item => {
     payload: item
   };
 };
+
+export const addItems = items => {
+  return {
+    type: ADD_TASKS,
+    payload: items
+  }
+}
 
 export const removeTasks = id => {
   return {

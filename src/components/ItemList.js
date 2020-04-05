@@ -1,10 +1,10 @@
 import React from 'react';
 import ItemTodo from './ItemTodo';
 
-const ItemList = (props) => {
-    const { generateArrayWithFilter } = props;
-    
+const ItemList = ({ generateArrayWithFilter }) => {
+
     const currentArrayOfTasks = generateArrayWithFilter();
+    console.log(currentArrayOfTasks)
     
     return (
         <div className="item-list">

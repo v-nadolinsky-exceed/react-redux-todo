@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "./Footer.css";
 
-const Footer = ({ removeCompletedItem, setFilter, tasks }) => {
+const Footer = ({ removeCompletedItem, setFilter, tasks}) => {
   const removeCompletedTask = () => {
     axios
       .delete(`http://localhost:1234/todos/deletecompl`)
@@ -17,9 +17,10 @@ const Footer = ({ removeCompletedItem, setFilter, tasks }) => {
   };
 
   const amountActive = () => {
-    const active = tasks.items.filter(item => item.completed === false);
+    const active = [...tasks.items].filter(item => item.completed === false);
     return active.length;
   };
+
 
   return (
     <div className="footer">
