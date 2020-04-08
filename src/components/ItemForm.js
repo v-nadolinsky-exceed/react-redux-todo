@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions/index";
-import axios from "axios";
 import { toast } from "react-toastify";
 import "./ItemForm.css";
 
-const ItemForm = ({ allCompletedTask, tasks, addTasks }) => {
+const ItemForm = ({ allCompletedItems, tasks, addItem }) => {
   
   const [allCompleted, setAllCompleted] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -18,27 +17,17 @@ const ItemForm = ({ allCompletedTask, tasks, addTasks }) => {
   const addTask = event => {
     if (event.key === "Enter" && event.target.value !== "") {
       const newElem = { text: inputValue, completed: false };
-      axios
-        .post(`http://localhost:1234/todos/create`, { ...newElem })
-        .then(res => {
-          addTasks(res.data)
-          setInputValue("");
-          toast(`Add task: ${inputValue}`);
-        })
-        .catch(err => console.error("err", err));
+      addItem(newElem)
+      setInputValue("");
+      toast(`Add task: ${inputValue}`);
     }
   };
  
   const allCompleteds = () => {
-    axios
-      .put(`http://localhost:1234/todos/update`, { completed: !allCompleted })
-      .then(res => {
-        if (allCompleted) toast.info("No tasks marked");
-        else toast.info("All tasks marked");
-        allCompletedTask(allCompleted);
-        setAllCompleted(allCompleted => !allCompleted);
-      })
-      .catch(err => console.log(err));
+    if (allCompleted) toast.info("No tasks marked");
+    else toast.info("All tasks marked");
+    allCompletedItems(allCompleted)
+    setAllCompleted(allCompleted => !allCompleted);
   };
 
   return (

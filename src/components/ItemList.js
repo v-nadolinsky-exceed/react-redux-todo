@@ -4,7 +4,6 @@ import ItemTodo from './ItemTodo';
 const ItemList = ({ generateArrayWithFilter }) => {
 
     const currentArrayOfTasks = generateArrayWithFilter();
-    console.log(currentArrayOfTasks)
     
     return (
         <div className="item-list">

@@ -1,26 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-import { removeCompletedTasks } from "../actions/index";
-import axios from "axios";
+import * as actions from "../actions/index";
 import { toast } from "react-toastify";
 import "./Footer.css";
 
-const Footer = ({ removeCompletedItem, setFilter, tasks}) => {
+const Footer = ({ removeCompletedItems, setFilter, tasks }) => {
   const removeCompletedTask = () => {
-    axios
-      .delete(`http://localhost:1234/todos/deletecompl`)
-      .then(res => {
-        removeCompletedItem();
-        toast.warn("Remove completed task");
-      })
-      .catch(err => console.error(err));
+    removeCompletedItems();
+    toast.warn("Remove completed task");
   };
 
   const amountActive = () => {
-    const active = [...tasks.items].filter(item => item.completed === false);
+    const active = [...tasks.items].filter((item) => item.completed === false);
     return active.length;
   };
-
 
   return (
     <div className="footer">
@@ -46,18 +39,10 @@ const Footer = ({ removeCompletedItem, setFilter, tasks}) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = (state) => {
   return {
-    removeCompletedItem: () => {
-      dispatch(removeCompletedTasks());
-    }
+    tasks: state.tasks,
   };
 };
 
-const mapStateToProps = state => {
-  return {
-    tasks: state.tasks
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default connect(mapStateToProps, { ...actions })(Footer);

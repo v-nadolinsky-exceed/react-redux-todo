@@ -12,7 +12,7 @@ export const itemReducer = (state = InitialState() ,action) => {
         case ADD_TASK :
             return {  items: [...state.items, action.payload ] }
         case ADD_TASKS : 
-            return { items:[ ...action.payload]}
+            return {  items:[ ...action.payload]}
         case REMOVE_TASK: 
             return { items: [...state.items.filter( task => task._id !== action.payload.id ) ]} 
         case CHANGE_TASK:
@@ -20,6 +20,7 @@ export const itemReducer = (state = InitialState() ,action) => {
                 if( task._id === action.payload.id) {
                     return { ...task , text : action.payload.text }
                 }
+                return task
             })]}
         case COMPLETED_TASK:
             return { items: [...state.items.map(task => {
